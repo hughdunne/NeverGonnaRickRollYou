@@ -1,0 +1,14 @@
+{
+  "name": "Never Gonna Rick-Roll You",
+  "manifest_version": 2,
+  "version": "1.0",
+  "description": "Fetch video title, length, upvotes and downvotes when you hover on a YouTube link.\nNOTE: please go to the options page and enter your Google API key before you start using.",
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["ngrry.js"]
+  }],
+  "permissions": ["storage"],
+  "options_ui": {
+    "page": "options.html"
+  }
+}
