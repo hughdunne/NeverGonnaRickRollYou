@@ -18,7 +18,7 @@ No.
 # Well then, how do I use it?
 
 * Git-clone this repo.
-* Go to your [Chrome extensions](chrome://extensions) page. (Only works in the Chrome browser, obviously)
+* Go to your Chrome extensions page: chrome://extensions (Only works in the Chrome browser, obviously)
 * Check the Developer mode checkbox.
 * Click the "Load unpacked extension..." button.
 * Navigate to the root directory of this repo and click OK.
