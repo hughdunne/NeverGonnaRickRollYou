@@ -17,9 +17,7 @@ const duration_string = coded_str => {
 
 const extractIdFromCom = link => {
     let q = link.search.substr(1);
-    return q.split('&').filter(function(e) {
-        return e.startsWith('v=')
-    }).map(function(e) {return e.substr(2)})[0];
+    return q.split('&').filter(e => e.startsWith('v=')).map(e => e.substr(2))[0];
 };
 
 const extractIdFromBe = link => link.pathname.substr(1);
