@@ -1,6 +1,7 @@
 # What is this?
 
 A Chrome extension so that you can hover on a YouTube link and see a popup giving the title, duration, upvotes and downvotes. Here's a screenshot.
+
 ![screenshot](./ngrry.png)
 
 
