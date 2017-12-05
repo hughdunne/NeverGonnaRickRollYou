@@ -26,29 +26,36 @@ chrome.storage.sync.get('apiKey', items => {
     const API_KEY = items.apiKey;
     const links = document.getElementsByTagName("a");
     if (links && links.length > 0) {
-      for (let ii = 0; ii < links.length; ++ii) {
-          try {
-              let host = links[ii].host;
-              let id;
-              if (host.endsWith('youtube.com')) {
-                  id = extractIdFromCom(links[ii]);
-              } else if (host.endsWith('youtu.be')) {
-                  id = extractIdFromBe(links[ii]);
-              } else {
-                  continue;
-              }
-              let URL = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${API_KEY}&fields=items(contentDetails(duration),snippet(title),statistics)&part=snippet,contentDetails,statistics`;
-              window.fetch(URL).then(d => d.json()).then(d => {
-                  let {likeCount, dislikeCount} = d.items[0].statistics;
-                  let title = d.items[0].snippet.title;
-                  let duration = duration_string(d.items[0].contentDetails.duration);
-                  links[ii].title = `${title} ## ${duration} ## +${likeCount}/-${dislikeCount}`;
-              }).catch(e => {
-                  links[ii].title = "Failed to fetch info: " + e.message;
-              });
-          } catch(e) {
-              links[ii].title = "Failed to fetch info: " + e.message;
-          }
-      }
+        let idMap = {};
+        let id;
+        for (let ii = 0; ii < links.length; ++ii) {
+            let host = links[ii].host;
+            if (host.endsWith('youtube.com')) {
+                id = extractIdFromCom(links[ii]);
+                idMap[id] = ii;
+            } else if (host.endsWith('youtu.be')) {
+                id = extractIdFromBe(links[ii]);
+                idMap[id] = ii;
+            }
+        }
+        let idList = Object.keys(idMap).join(',');
+        if (idList.length > 0) {
+            let URL = `https://www.googleapis.com/youtube/v3/videos?id=${idList}&key=${API_KEY}&fields=items(id,contentDetails(duration),snippet(title),statistics)&part=id,snippet,contentDetails,statistics`;
+            window.fetch(URL).then(d => d.json()).then(d => {
+                for (let item of d.items) {
+                    try {
+                        let {likeCount, dislikeCount} = item.statistics;
+                        let title = item.snippet.title;
+                        let duration = duration_string(item.contentDetails.duration);
+                        let ii = idMap[item.id];
+                        links[ii].title = `${title} ## ${duration} ## +${likeCount}/-${dislikeCount}`;
+                    } catch(e) {
+                        console.log(`Failed to fetch info: ${item.id}: ${e.message}`);
+                    }
+                }
+            }).catch(e => {
+              console.log(`Failed to fetch info: ${idList}: ${e.message}`);
+            });
+        }
     }
 });
