@@ -27,3 +27,8 @@ No.
 # But I don't have an API key!
 
 Get one by following the directions [here](https://developers.google.com/youtube/v3/getting-started).
+
+# How do I test this?
+```
+node test_ngrry.js
+```
