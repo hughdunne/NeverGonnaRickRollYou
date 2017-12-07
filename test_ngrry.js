@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const N = require('./ngrry');
+const N = require('./ngrry_utils');
 
 const makeLink = URL => {
     const RE = /^((\w+):)?(\/\/((\w+)?(:(\w+))?@)?([^\/\?:]+)(:(\d+))?)?(\/?([^\/\?#][^\?#]*)?)?(\?([^#]+))?(#(\w*))?/;
