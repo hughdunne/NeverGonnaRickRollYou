@@ -11,7 +11,7 @@ chrome.storage.sync.get('apiKey', items => {
                     let title = getTitle(item);
                     if (title) {
                         let ii = idMap[item.id];
-                        links[ii].title = getTitle(item);
+                        links[ii].title = title;
                     }
                 }
             }).catch(e => {
